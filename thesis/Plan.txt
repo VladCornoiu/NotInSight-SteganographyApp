@@ -1,0 +1,46 @@
+1. Introducere
+	1.1. Motivatie (De ce am ales tema, la ce intrebare doresc sa raspund, ce doresc sa realizez si de ce)
+	1.2. Obiectiv
+	1.3. Istoric
+	1.4. Structura lucrarii (
+	1.5. Aplicatie practica (Sa reiasa contributia personala si sa fie usor identificabila)
+	
+Introducerea
+○ Conține:
+■ tipul lucrării şi subdomeniul specific în care se încadrează tema,
+■ prezentarea generală a temei,
+■ scopul şi motivația alegerii temei,
+■ contribuţia proprie în realizarea lucrării (pe scurt),
+■ structura lucrării, cu descrierea succintă a fiecărui capitol,
+■ câteva repere istorice relativ la temă şi rezultate cunoscute (starea actuală a
+domeniului eventual).
+	
+----- Metodologie a lucrarii, de ce s-au ales unele tool-uri, cum s-a realizat dezvoltarea proiectelui, greutati intampinate
+
+2. Fundamente teoretice
+	2.1. Imagine digitala si image processing
+	2.2. Fisiere audio si spatiu al frecventei (DCT)
+	2.3. Steganografie
+	2.4. Algoritmul LSB
+	2.5. Algoritm jpeg
+	2.6. Algoritm audio
+	2.7. Criptografie -> AES
+3. Implementarea aplicatiei
+	3.1. Tehnologii folosite si motivatia alegerii lor
+	3.2. Modul de utilizare
+	3.3. Detalii de implementare
+4. Experimente si performante
+	4.1. MSE si PSNR (Metrici de performanta)
+	4.2. Atacuri structurale si statistice
+5. Concluzie
+
+Intrebari:
+	- S-Box Substitution (AES): Cum previne acest pas atacurile diferentiale si liniare?
+
+Referintele se pun la final de propozitie sau de paragraf.
+Contributie personala in Introducere.
+Motivatie pentru limbajele de programare si framework-uri folosite.
+Plugin, mobile?
+Grija la size-ul SteganoFile
+
+Spread Spectrum Technique

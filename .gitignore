@@ -1,0 +1,17 @@
+target/
+node/
+node_modules/
+webpack.generated.js
+server/
+clientside/
+config/
+build/
+
+.idea
+*.iws
+*.iml
+*.ipr
+
+*.mvn
+*.classpath
+*.settings
