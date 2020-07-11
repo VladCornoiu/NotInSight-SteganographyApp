@@ -1,10 +1,10 @@
 package com.example.restservice.writer;
 
-import com.example.restservice.model.DCTTransform;
+import com.example.restservice.operations.DCTTransform;
 
 import java.io.*;
 
-import static com.example.restservice.model.Huffman.*;
+import static com.example.restservice.operations.Huffman.*;
 
 public class FileWriter {
 

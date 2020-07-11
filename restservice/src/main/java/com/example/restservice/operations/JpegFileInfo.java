@@ -1,4 +1,4 @@
-package com.example.restservice.model;
+package com.example.restservice.operations;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,70 +1,30 @@
 package com.example.client;
-
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.PreserveOnRefresh;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
+import com.vaadin.flow.templatemodel.TemplateModel;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 
 @Route
-@PreserveOnRefresh
-@PWA(name = "NotInSight Application", shortName = "NotInSight", description = "Steganography Application", backgroundColor = "#227aef", themeColor = "#227aef")
+@Tag("main-view")
+@JsModule("./src/views/main-view.js")
 @PageTitle("NotInSight")
-public class MainView extends VerticalLayout {
+public class MainView extends PolymerTemplate<MainView.MainViewModel> {
 
-    private HorizontalLayout layout;
-    private VerticalLayout titleLayout;
-    private VerticalLayout leftLayout;
-    private VerticalLayout rightLayout;
-
-    private final Button embedButton;
-    private final Button extractButton;
-
+    @Id("ExtractButton")
+    private Button extractButton;
+    @Id("EmbedButton")
+    private Button embedButton;
 
     public MainView() {
-        titleLayout = new VerticalLayout();
-
-        Label titleLabel = new Label("NotInSight - Steganography App");
-        titleLayout.add(titleLabel);
-        titleLayout.setWidthFull();
-
-        leftLayout = new VerticalLayout();
-        rightLayout = new VerticalLayout();
-        layout = new HorizontalLayout();
-
-        embedButton = new Button("Embed Secret File", e -> UI.getCurrent().navigate("EmbedView"));
-        embedButton.setThemeName("primary");
-        embedButton.setWidth("50%");
-        embedButton.setHeight("150px");
-        extractButton = new Button("Extract Secret File", e -> UI.getCurrent().navigate("ExtractView"));
-        extractButton.setThemeName("primary");
-        extractButton.setWidth("50%");
-        extractButton.setHeight("150px");
-
-        leftLayout.add(embedButton);
-        leftLayout.setHeightFull();
-        leftLayout.setWidthFull();
-        leftLayout.setAlignItems(Alignment.CENTER);
-        leftLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-
-        rightLayout.add(extractButton);
-        rightLayout.setHeightFull();
-        rightLayout.setWidthFull();
-        rightLayout.setAlignItems(Alignment.CENTER);
-        rightLayout.setJustifyContentMode(JustifyContentMode.CENTER);
-
-        layout.setWidthFull();
-        layout.setHeightFull();
-        layout.add(titleLayout);
-        layout.add(leftLayout);
-        layout.add(rightLayout);
-
-        add(layout);
+        extractButton.addClickListener(e -> UI.getCurrent().navigate("ExtractView"));
+        embedButton.addClickListener(e -> UI.getCurrent().navigate("EmbedView"));
     }
 
+    public interface MainViewModel extends TemplateModel {
+    }
 }

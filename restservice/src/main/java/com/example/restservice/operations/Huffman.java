@@ -1,4 +1,4 @@
-package com.example.restservice.model;
+package com.example.restservice.operations;
 
 import java.io.*;
 
@@ -116,7 +116,7 @@ public class Huffman {
                     0xea, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
                     0xf9, 0xfa};
 
-    int bufferBits, word;
+    int bufferBits, bufferWord;
     public Huffman() {
     }
 
@@ -148,7 +148,7 @@ public class Huffman {
                 occurences++;
             } else {
                 while (occurences > 15) {
-                    streamOut(outStream, luminanceACTable[0xF0][0], luminanceACTable[0xF0][1]);
+                    streamOut(outStream, luminanceACTable[0xF0][0], luminanceACTable[0xF0][1]); // writes 16 occurences of 0
                     occurences -= 16;
                 }
                 value = valueTemp;
@@ -158,9 +158,9 @@ public class Huffman {
                 }
                 bitsToWrite = 1;
                 while ((valueTemp >>= 1) != 0) {
-                    bitsToWrite++;
+                    bitsToWrite++; // bits necessary to write specific number
                 }
-                int poz = (occurences << 4) + bitsToWrite;
+                int poz = (occurences << 4) + bitsToWrite; // add occurences of 0 if necessary
                 streamOut(outStream, luminanceACTable[poz][0], luminanceACTable[poz][1]);
                 streamOut(outStream, value, bitsToWrite);
 
@@ -229,15 +229,15 @@ public class Huffman {
 
     void streamOut(final BufferedOutputStream outStream, final int code, final int size) {
         int PutBuffer = code;
-        int PutBits = bufferBits;
+        int PutBits = bufferBits; // get remaining bits to write
 
-        PutBuffer &= (1 << size) - 1;
+        PutBuffer &= (1 << size) - 1; // for < 0 numbers ; write only necessary bits from 2's complement representation
         PutBits += size;
         PutBuffer <<= 24 - PutBits;
-        PutBuffer |= word;
+        PutBuffer |= bufferWord;
 
         while (PutBits >= bitsInByte) {
-            final int c = ((PutBuffer >> 16) & mask);
+            final int c = ((PutBuffer >> 16) & mask); // write only 8 bits
             try {
                 outStream.write(c);
             } catch (final IOException e) {
@@ -250,17 +250,17 @@ public class Huffman {
                     e.printStackTrace();
                 }
             }
-            PutBuffer <<= bitsInByte;
+            PutBuffer <<= bitsInByte; // discard wrote bits
             PutBits -= bitsInByte;
         }
-        word = PutBuffer;
-        bufferBits = PutBits;
+        bufferWord = PutBuffer; // save current bitstream
+        bufferBits = PutBits; // save current number of bits to write
 
     }
 
     public void flushBuffer(final BufferedOutputStream outStream) {
         int toWrite;
-        int PutBuffer = word;
+        int PutBuffer = bufferWord;
         int PutBits = bufferBits;
         while (PutBits >= bitsInByte) {
             toWrite = ((PutBuffer >> 16) & mask);

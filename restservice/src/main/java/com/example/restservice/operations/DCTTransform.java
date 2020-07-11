@@ -1,4 +1,4 @@
-package com.example.restservice.model;
+package com.example.restservice.operations;
 
 public class DCTTransform {
     public double DivisorsLuminance[] = new double[64];
@@ -7,9 +7,9 @@ public class DCTTransform {
     public static final int BLOCK_SIZE = 8;
 
     public final static double cosPI_4 = 0.707106781D;
-    public final static double cosPI_38 = 0.382683433D;
-    public final static double cosPI_8_cosPI3_8 = 0.541196100D;
-    public final static double cosPI_8cosPI3_8 = 1.306562965D;
+    public final static double cos3PI_8 = 0.382683433D;
+    public final static double cosPI_8_cos3PI_8 = 0.541196100D;
+    public final static double cosPI_8cos3PI_8 = 1.306562965D;
 
     public static final int[] luminance_matrix = { // Q50
             16, 11, 10, 16, 24, 40, 51, 61,
@@ -107,9 +107,9 @@ public class DCTTransform {
             d3 = c6 * cosPI_4;
             d6 = b7 + d3;
             d7 = b7 - d3;
-            d5 = (c5 - c7) * cosPI_38;
-            d2 = cosPI_8_cosPI3_8 * c5 + d5;
-            d4 = cosPI_8cosPI3_8 * c7 + d5;
+            d5 = (c5 - c7) * cos3PI_8;
+            d2 = cosPI_8_cos3PI_8 * c5 + d5;
+            d4 = cosPI_8cos3PI_8 * c7 + d5;
 
             output[i][5] = d7 + d2;
             output[i][3] = d7 - d2;
@@ -146,9 +146,9 @@ public class DCTTransform {
             d3 = c6 * cosPI_4;
             d6 = b7 + d3;
             d7 = b7 - d3;
-            d5 = (c5 - c7) * cosPI_38;
-            d2 = cosPI_8_cosPI3_8 * c5 + d5;
-            d4 = cosPI_8cosPI3_8 * c7 + d5;
+            d5 = (c5 - c7) * cos3PI_8;
+            d2 = cosPI_8_cos3PI_8 * c5 + d5;
+            d4 = cosPI_8cos3PI_8 * c7 + d5;
 
 
             output[5][i] = d7 + d2;

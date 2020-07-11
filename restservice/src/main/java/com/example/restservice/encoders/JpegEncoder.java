@@ -3,11 +3,12 @@ package com.example.restservice.encoders;
 import com.example.restservice.encrypt.FileEncryption;
 import com.example.restservice.exception.NotEnoughSpaceToEncodeException;
 import com.example.restservice.model.DCTCoefficient;
-import com.example.restservice.model.DCTTransform;
-import com.example.restservice.model.Huffman;
-import com.example.restservice.model.JpegFileInfo;
+import com.example.restservice.operations.DCTTransform;
+import com.example.restservice.operations.Huffman;
+import com.example.restservice.operations.JpegFileInfo;
 import com.example.restservice.writer.FileWriter;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -392,17 +393,17 @@ public class JpegEncoder {
     }
 
     public static void main(String[] args) throws IOException {
-//
-//        BufferedImage bufferedImage = null;
-//
-//        try {
-//            bufferedImage = ImageIO.read(new File("third_jpeg.jpg"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("SECRETFILE_3000.txt"));
-//        jpegEncoder.encode();
+
+        BufferedImage bufferedImage = null;
+
+        try {
+            bufferedImage = ImageIO.read(new File("third_jpeg.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("SECRETFILE_3000.txt"), Paths.get("."), "third_jpeg_stego.jpg");
+        jpegEncoder.encode();
     }
 }
 

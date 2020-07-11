@@ -152,8 +152,11 @@ public class StegoFileService {
     }
 
     public static void main(String[] args) throws IOException {
-        File file = new File("cover2.jpg");
-        SecretFileDecoder.extract(new FileInputStream(file), (int) file.length());
+        File file = new File("third_jpeg_stego.jpg");
+        SecretData secretDataToReturn = SecretFileDecoder.extract(new FileInputStream(file), (int) file.length());
 
+        try (FileOutputStream fos = new FileOutputStream(secretDataToReturn.getFilename())) {
+            fos.write(secretDataToReturn.getData());
+        }
     }
 }

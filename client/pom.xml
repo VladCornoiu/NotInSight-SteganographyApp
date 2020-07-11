@@ -15,6 +15,7 @@
     <properties>
         <java.version>14</java.version>
         <vaadin.version>14.2.0</vaadin.version>
+        <vaadin.plugin.version>14.2.0</vaadin.plugin.version>
     </properties>
 
     <repositories>
@@ -56,27 +57,27 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.webjars.bowergithub.insites</groupId>
+                    <groupId>org.webjars.bowergithub.insites</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.webjars.bowergithub.polymer</groupId>
+                    <groupId>org.webjars.bowergithub.polymer</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.webjars.bowergithub.polymerelements</groupId>
+                    <groupId>org.webjars.bowergithub.polymerelements</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.webjars.bowergithub.vaadin</groupId>
+                    <groupId>org.webjars.bowergithub.vaadin</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>com.webjars.bowergithub.webcomponents</groupId>
+                    <groupId>org.webjars.bowergithub.webcomponents</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
@@ -142,6 +143,20 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-frontend</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
