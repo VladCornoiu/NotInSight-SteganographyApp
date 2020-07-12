@@ -40,19 +40,19 @@ public class SecretFileDecoder {
 
         boolean hasToDecode = true;
         while (hasToDecode) {
-            int square = 4;
-            int squareRoot = 2;
+            int square = 1;
+            int squareRoot = 1;
             int coefficientsLeft = coeffCount - coeffIndex;
 
             if (coefficientsLeft < 4) {
                 break;
             }
             while (square < coefficientsLeft) {
-                square = squareRoot * squareRoot;
                 squareRoot++;
+                square = squareRoot * squareRoot;
             }
             if (square != coefficientsLeft) { // too much and not equal
-                squareRoot -= 2;
+                squareRoot--;
                 square = squareRoot * squareRoot;
             }
             int matrixSize = squareRoot;

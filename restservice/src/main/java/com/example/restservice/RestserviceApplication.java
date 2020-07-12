@@ -1,6 +1,6 @@
 package com.example.restservice;
 
-import com.example.restservice.properties.FileStorageProperties;
+import com.example.restservice.properties.ServerFileStorageProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-        FileStorageProperties.class
+        ServerFileStorageProperties.class
 })
 public class RestserviceApplication {
 

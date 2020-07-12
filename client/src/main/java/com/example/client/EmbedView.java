@@ -2,6 +2,7 @@ package com.example.client;
 
 import com.example.client.controllers.EmbedViewController;
 import com.example.client.data.SteganographyDataModel;
+import com.example.client.service.ClientStegoFileService;
 import com.example.client.service.StegoRestApi;
 import com.example.client.utils.CoverFileReceiver;
 import com.example.client.utils.SecretFileReceiver;
@@ -50,12 +51,12 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
     private Button backToHomePageButton;
 
     @Autowired
-    public EmbedView(StegoRestApi stegoRestApi) {
-        SteganographyDataModel steganographyDataModel = new SteganographyDataModel(stegoRestApi);
-        embedViewController = new EmbedViewController(stegoRestApi, steganographyDataModel);
+    public EmbedView(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
+        SteganographyDataModel steganographyDataModel = new SteganographyDataModel(stegoRestApi, clientStegoFileService);
+        embedViewController = new EmbedViewController(stegoRestApi, steganographyDataModel, clientStegoFileService);
 
         // Cover File Upload Data
-        CoverFileReceiver coverFileReceiver = new CoverFileReceiver();
+        CoverFileReceiver coverFileReceiver = new CoverFileReceiver(clientStegoFileService);
         coverFileUpload.setReceiver(coverFileReceiver);
 
         Button coverImageUploadButton = new Button("Upload Cover Image");
@@ -76,7 +77,7 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
         });
 
         //Secret File Upload Data
-        SecretFileReceiver secretFileReceiver = new SecretFileReceiver();
+        SecretFileReceiver secretFileReceiver = new SecretFileReceiver(clientStegoFileService);
         secretFileUpload.setReceiver(secretFileReceiver);
 
         Button secretFileUploadButton = new Button("Upload Secret File");

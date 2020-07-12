@@ -7,7 +7,7 @@ import com.example.model.enums.ResponseStatus;
 import com.example.model.io.GetSecretFileResponse;
 import com.example.model.io.GetStegoFileResponse;
 import com.example.restservice.model.SecretData;
-import com.example.restservice.service.StegoFileService;
+import com.example.restservice.service.ServerStegoFileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class StegoFileResource {
     private final static Logger logger = LoggerFactory.getLogger(StegoFileResource.class);
 
     @Autowired
-    StegoFileService stegoFileService;
+    ServerStegoFileService serverStegoFileService;
 
     @RequestMapping(
             value = "api/performStego",
@@ -30,7 +30,7 @@ public class StegoFileResource {
     public Response<GetStegoFileResponse> performStego(@RequestParam("coverfile") MultipartFile coverFile,
                                                        @RequestParam("secretfile") MultipartFile secretFile) {
         try {
-            byte[] result = stegoFileService.computeStegoFile(coverFile, secretFile);
+            byte[] result = serverStegoFileService.computeStegoFile(coverFile, secretFile);
 
             GetStegoFileResponse body = new GetStegoFileResponse();
             body.setData(result);
@@ -49,7 +49,7 @@ public class StegoFileResource {
     )
     public Response<GetSecretFileResponse> retrieveSecret(@RequestParam("stegofile") MultipartFile stegoFile) {
         try {
-            SecretData secretData = stegoFileService.retrieveSecret(stegoFile);
+            SecretData secretData = serverStegoFileService.retrieveSecret(stegoFile);
 
             GetSecretFileResponse body = new GetSecretFileResponse();
             body.setData(secretData.getData());

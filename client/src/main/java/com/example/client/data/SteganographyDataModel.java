@@ -1,7 +1,8 @@
 package com.example.client.data;
 
-import com.example.client.service.StegoRestApi;
 import com.example.client.exception.CouldNotPerformStegoOperationException;
+import com.example.client.service.ClientStegoFileService;
+import com.example.client.service.StegoRestApi;
 import com.example.model.Response;
 import com.example.model.enums.ResponseStatus;
 import com.example.model.io.GetSecretFileRequest;
@@ -19,15 +20,18 @@ public class SteganographyDataModel {
 
     private StegoRestApi stegoRestApi;
 
-    public SteganographyDataModel(StegoRestApi stegoRestApi) {
+    ClientStegoFileService clientStegoFileService;
+
+    public SteganographyDataModel(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
         this.stegoRestApi = stegoRestApi;
+        this.clientStegoFileService = clientStegoFileService;
     }
 
     public GetStegoFileResponse getStegoFile(String coverFileName, String secretFileName) {
 
         GetStegoFileRequest request = new GetStegoFileRequest();
-        request.setCoverFile(new File("clientside/uploads/coverfile/" + coverFileName));
-        request.setSecretFile(new File("clientside/uploads/secretFile/" + secretFileName));
+        request.setCoverFile(new File(clientStegoFileService.getCoverFileUploadStorageLocation().resolve(coverFileName).toString()));
+        request.setSecretFile(new File(clientStegoFileService.getSecretFileUploadStorageLocation().resolve(secretFileName).toString()));
 
         Response<GetStegoFileResponse> response = stegoRestApi.getStegoFile(request);
         if (response.getStatus() == ResponseStatus.ERROR) {
@@ -43,7 +47,7 @@ public class SteganographyDataModel {
 
     public GetSecretFileResponse getSecretFile(String stegoFileName) {
         GetSecretFileRequest request = new GetSecretFileRequest();
-        request.setStegoFile(new File("clientside/uploads/stegofile/" + stegoFileName));
+        request.setStegoFile(new File(clientStegoFileService.getStegoFileUploadStorageLocation().resolve(stegoFileName).toString()));
 
         Response<GetSecretFileResponse> response = stegoRestApi.getSecretFile(request);
         logger.debug("response {}", response);

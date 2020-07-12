@@ -1,6 +1,7 @@
 package com.example.client.controllers;
 
 import com.example.client.data.SteganographyDataModel;
+import com.example.client.service.ClientStegoFileService;
 import com.example.client.service.StegoRestApi;
 import com.example.model.io.GetSecretFileResponse;
 import com.vaadin.flow.component.notification.Notification;
@@ -12,12 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class ExtractViewController  {
 
     private static final Logger logger = LoggerFactory.getLogger(ExtractViewController.class);
+
+    ClientStegoFileService clientStegoFileService;
 
     private String stegoFileName;
 
@@ -30,9 +31,11 @@ public class ExtractViewController  {
     private StegoRestApi stegoRestApi;
     private SteganographyDataModel steganographyDataModel;
 
-    public ExtractViewController(StegoRestApi stegoRestApi, SteganographyDataModel steganographyDataModel) {
+    public ExtractViewController(StegoRestApi stegoRestApi, SteganographyDataModel steganographyDataModel,
+                                 ClientStegoFileService clientStegoFileService) {
         this.stegoRestApi = stegoRestApi;
         this.steganographyDataModel = steganographyDataModel;
+        this.clientStegoFileService = clientStegoFileService;
     }
 
     public void uploadStegoFile(SucceededEvent succeededStegoFileUploadEvent) {
@@ -47,12 +50,7 @@ public class ExtractViewController  {
 
     public void processSubmit() {
         GetSecretFileResponse secretFileResponse = steganographyDataModel.getSecretFile(stegoFileName);
-        try {
-            Files.createDirectories(Paths.get("clientside/downloads/secretfile/").toAbsolutePath().normalize());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        File file = new File("clientside/downloads/secretfile/" + secretFileResponse.getFileName());
+        File file = new File(clientStegoFileService.getSecretFileDownloadStorageLocation().resolve(secretFileResponse.getFileName()).toString());
 
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(secretFileResponse.getData());
@@ -64,20 +62,10 @@ public class ExtractViewController  {
         Notification.show("Successfully recovered secret file. Click to download", 5000, Notification.Position.TOP_CENTER);
     }
 
-    public InputStream createResource() {
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(new File("clientside/downloads/secretfile/" + secretFileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return fis;
-    }
-
     public StreamResource getStreamResource(String secretFileName) {
         return new StreamResource(secretFileName, () -> {
             try {
-                return new BufferedInputStream(new FileInputStream(new File("clientside/downloads/secretfile/" + secretFileName)));
+                return new BufferedInputStream(new FileInputStream(new File(clientStegoFileService.getSecretFileDownloadStorageLocation().resolve(secretFileName).toString())));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

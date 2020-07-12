@@ -1,39 +1,48 @@
 package com.example.restservice.operations;
 
 public class DCTTransform {
-    public double DivisorsLuminance[] = new double[64];
-    public double DivisorsChrominance[] = new double[64];
 
     public static final int BLOCK_SIZE = 8;
+    public static final int MATRIX_SIZE = 64;
 
     public final static double cosPI_4 = 0.707106781D;
     public final static double cos3PI_8 = 0.382683433D;
     public final static double cosPI_8_cos3PI_8 = 0.541196100D;
     public final static double cosPI_8cos3PI_8 = 1.306562965D;
 
-    public static final int[] luminance_matrix = { // Q50
-            16, 11, 10, 16, 24, 40, 51, 61,
-            12, 12, 14, 19, 26, 58, 60, 55,
-            14, 13, 16, 24, 40, 57, 69, 56,
-            14, 17, 22, 29, 51, 87, 80, 62,
-            18, 22, 37, 56, 68, 109, 103, 77,
-            24, 35, 55, 64, 81, 104, 113, 92,
-            49, 64, 78, 87, 103, 121, 120, 101,
-            72, 92, 95, 98, 112, 100, 103, 99
-    };
+    public static int[] luminance_matrix;
+    public static int[] chrominance_matrix;
 
-    public static final int[] chrominance_matrix = {
-            17, 18, 24, 47, 99, 99, 99, 99,
-            18, 21, 26, 66, 99, 99, 99, 99,
-            24, 26, 56, 99, 99, 99, 99, 99,
-            47, 66, 99, 99, 99, 99, 99, 99,
-            99, 99, 99, 99, 99, 99, 99, 99,
-            99, 99, 99, 99, 99, 99, 99, 99,
-            99, 99, 99, 99, 99, 99, 99, 99,
-            99, 99, 99, 99, 99, 99, 99, 99
-    };
+    public double[] divisorsLuminance;
+    public double[] divisorsChrominance;
 
     public DCTTransform() {
+
+        luminance_matrix = new int[] { // Q50
+                16, 11, 10, 16, 24, 40, 51, 61,
+                12, 12, 14, 19, 26, 58, 60, 55,
+                14, 13, 16, 24, 40, 57, 69, 56,
+                14, 17, 22, 29, 51, 87, 80, 62,
+                18, 22, 37, 56, 68, 109, 103, 77,
+                24, 35, 55, 64, 81, 104, 113, 92,
+                49, 64, 78, 87, 103, 121, 120, 101,
+                72, 92, 95, 98, 112, 100, 103, 99
+        };
+
+        chrominance_matrix= new int[] {
+                17, 18, 24, 47, 99, 99, 99, 99,
+                18, 21, 26, 66, 99, 99, 99, 99,
+                24, 26, 56, 99, 99, 99, 99, 99,
+                47, 66, 99, 99, 99, 99, 99, 99,
+                99, 99, 99, 99, 99, 99, 99, 99,
+                99, 99, 99, 99, 99, 99, 99, 99,
+                99, 99, 99, 99, 99, 99, 99, 99,
+                99, 99, 99, 99, 99, 99, 99, 99
+        };
+
+        divisorsLuminance = new double[MATRIX_SIZE];
+        divisorsChrominance = new double[MATRIX_SIZE];
+
         int index = 0;
         double[] AANscaleFactor = { 1.0, 1.387039845, 1.306562965, 1.175875602, 1.0, 0.785694958, 0.541196100, 0.275899379};
 
@@ -45,7 +54,7 @@ public class DCTTransform {
 
         for (int i = 0; i < BLOCK_SIZE; i++) {
             for (int j = 0; j < BLOCK_SIZE; j++) {
-                DivisorsLuminance[index] = (1.0D / ((double) luminance_matrix[index] * AANscaleFactor[i] * AANscaleFactor[j] * 8.0D));
+                divisorsLuminance[index] = (1.0D / ((double) luminance_matrix[index] * AANscaleFactor[i] * AANscaleFactor[j] * 8.0D));
                 index++;
             }
         }
@@ -59,7 +68,7 @@ public class DCTTransform {
         index = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                DivisorsChrominance[index] = (1.0D / ((double) chrominance_matrix[index] * AANscaleFactor[i] * AANscaleFactor[j] * 8.0D));
+                divisorsChrominance[index] = (1.0D / ((double) chrominance_matrix[index] * AANscaleFactor[i] * AANscaleFactor[j] * 8.0D));
                 index++;
             }
         }
@@ -166,7 +175,7 @@ public class DCTTransform {
         int index = 0;
         for (int i = 0; i < BLOCK_SIZE; i++) {
             for (int j = 0; j < BLOCK_SIZE; j++) {
-                outputData[index] = (int)(Math.round(inputData[i][j] * DivisorsLuminance[index]));
+                outputData[index] = (int)(Math.round(inputData[i][j] * divisorsLuminance[index]));
                 index++;
             }
         }
@@ -180,7 +189,7 @@ public class DCTTransform {
         int index = 0;
         for (int i = 0; i < BLOCK_SIZE; i++) {
             for (int j = 0; j < BLOCK_SIZE; j++) {
-                outputData[index] = (int)(Math.round(inputData[i][j] * DivisorsChrominance[index]));
+                outputData[index] = (int)(Math.round(inputData[i][j] * divisorsChrominance[index]));
                 index++;
             }
         }

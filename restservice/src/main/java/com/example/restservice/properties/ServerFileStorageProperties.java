@@ -3,7 +3,7 @@ package com.example.restservice.properties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix="stego")
-public class FileStorageProperties {
+public class ServerFileStorageProperties {
 
     private String coverFileUploadDir;
     private String secretFileUploadDir;

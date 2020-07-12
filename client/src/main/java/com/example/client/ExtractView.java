@@ -2,6 +2,7 @@ package com.example.client;
 
 import com.example.client.controllers.ExtractViewController;
 import com.example.client.data.SteganographyDataModel;
+import com.example.client.service.ClientStegoFileService;
 import com.example.client.service.StegoRestApi;
 import com.example.client.utils.StegoFileReceiver;
 import com.vaadin.flow.component.ClickEvent;
@@ -48,12 +49,12 @@ public class ExtractView extends PolymerTemplate<ExtractView.ExtractViewModel> {
     private Button backToHomePageButton;
 
     @Autowired
-    public ExtractView(StegoRestApi stegoRestApi) {
+    public ExtractView(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
 
-        SteganographyDataModel steganographyDataModel = new SteganographyDataModel(stegoRestApi);
-        extractViewController = new ExtractViewController(stegoRestApi, steganographyDataModel);
+        SteganographyDataModel steganographyDataModel = new SteganographyDataModel(stegoRestApi, clientStegoFileService);
+        extractViewController = new ExtractViewController(stegoRestApi, steganographyDataModel, clientStegoFileService);
 
-        StegoFileReceiver stegoFileReceiver = new StegoFileReceiver();
+        StegoFileReceiver stegoFileReceiver = new StegoFileReceiver(clientStegoFileService);
         stegoFileUpload.setReceiver(stegoFileReceiver);
         stegoFileUpload.addSucceededListener((ComponentEventListener<SucceededEvent>) succeededEvent -> { // needs rework
             extractViewController.uploadStegoFile(succeededEvent);

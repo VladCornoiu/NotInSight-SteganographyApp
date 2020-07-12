@@ -256,7 +256,13 @@ public class JpegEncoder {
             }
         }
         int aproximate_capacity = coeffCount - zeroCoef - coeffCount / 64;
-        System.out.println("The aproximate capacity is: " + aproximate_capacity);
+//        PrintStream fps = new PrintStream(new FileOutputStream("log_coeff.txt", true));
+//        System.setOut(fps);
+        System.out.print("The aproximate capacity is: " + aproximate_capacity + ";");
+//        System.out.print(" The total rgb size is: " + coverImage.getWidth() * coverImage.getHeight() + ";");
+//        System.out.println(" The ratio between is: " + ((coverImage.getWidth() * coverImage.getHeight()) / aproximate_capacity));
+//        System.setOut(System.out);
+//        fps.close();
         int fileLength;
 
         fileLength = (int) new File(secretFileAbsolutePath).length();
@@ -308,19 +314,20 @@ public class JpegEncoder {
         //------ needs to repeat
         boolean hasToEncode = true;
         while(hasToEncode) {
-            int square = 4;
-            int squareRoot = 2;
+            int square = 1;
+            int squareRoot = 1;
             int coefficientsLeft = coeffCount - coeffIndex;
 
             if (coefficientsLeft < 4) {
-                break;
+                System.out.println("Not enough space to encode");
+                throw new NotEnoughSpaceToEncodeException("There is not enough space to encode message");
             }
             while (square < coefficientsLeft) {
-                square = squareRoot * squareRoot;
                 squareRoot++;
+                square = squareRoot * squareRoot;
             }
             if (square != coefficientsLeft) { // too much and not equal
-                squareRoot -= 2;
+                squareRoot--;
                 square = squareRoot * squareRoot;
             }
             int matrixSize = squareRoot;
@@ -390,20 +397,6 @@ public class JpegEncoder {
             }
         }
 
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        BufferedImage bufferedImage = null;
-
-        try {
-            bufferedImage = ImageIO.read(new File("third_jpeg.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("SECRETFILE_3000.txt"), Paths.get("."), "third_jpeg_stego.jpg");
-        jpegEncoder.encode();
     }
 }
 

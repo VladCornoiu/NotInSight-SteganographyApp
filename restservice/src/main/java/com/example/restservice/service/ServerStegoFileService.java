@@ -5,7 +5,7 @@ import com.example.restservice.encoders.AudioEncoder;
 import com.example.restservice.encoders.JpegEncoder;
 import com.example.restservice.exception.NotEnoughSpaceToEncodeException;
 import com.example.restservice.model.SecretData;
-import com.example.restservice.properties.FileStorageProperties;
+import com.example.restservice.properties.ServerFileStorageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-public class StegoFileService {
+public class ServerStegoFileService {
 
     private Path coverFileUploadStorageLocation;
     private Path secretFileUploadStorageLocation;
@@ -35,12 +35,12 @@ public class StegoFileService {
     private AudioEncoder audioStegoFile;
 
     @Autowired
-    public StegoFileService(FileStorageProperties fileStorageProperties) {
-        this.coverFileUploadStorageLocation = Paths.get(fileStorageProperties.getCoverFileUploadDir()).toAbsolutePath().normalize();
-        this.secretFileUploadStorageLocation = Paths.get(fileStorageProperties.getSecretFileUploadDir()).toAbsolutePath().normalize();
-        this.stegoFileUploadStorageLocation = Paths.get(fileStorageProperties.getStegoFileUploadDir()).toAbsolutePath().normalize();
-        this.stegoFileDownloadStorageLocation = Paths.get(fileStorageProperties.getStegoFileDownloadDir()).toAbsolutePath().normalize();
-        this.secretFileDownloadStorageLocation = Paths.get(fileStorageProperties.getSecretFileDownloadDir()).toAbsolutePath().normalize();
+    public ServerStegoFileService(ServerFileStorageProperties serverFileStorageProperties) {
+        this.coverFileUploadStorageLocation = Paths.get(serverFileStorageProperties.getCoverFileUploadDir()).toAbsolutePath().normalize();
+        this.secretFileUploadStorageLocation = Paths.get(serverFileStorageProperties.getSecretFileUploadDir()).toAbsolutePath().normalize();
+        this.stegoFileUploadStorageLocation = Paths.get(serverFileStorageProperties.getStegoFileUploadDir()).toAbsolutePath().normalize();
+        this.stegoFileDownloadStorageLocation = Paths.get(serverFileStorageProperties.getStegoFileDownloadDir()).toAbsolutePath().normalize();
+        this.secretFileDownloadStorageLocation = Paths.get(serverFileStorageProperties.getSecretFileDownloadDir()).toAbsolutePath().normalize();
 
         try {
             Files.createDirectories(this.coverFileUploadStorageLocation);
@@ -151,12 +151,4 @@ public class StegoFileService {
         return secretDataToReturn;
     }
 
-    public static void main(String[] args) throws IOException {
-        File file = new File("third_jpeg_stego.jpg");
-        SecretData secretDataToReturn = SecretFileDecoder.extract(new FileInputStream(file), (int) file.length());
-
-        try (FileOutputStream fos = new FileOutputStream(secretDataToReturn.getFilename())) {
-            fos.write(secretDataToReturn.getData());
-        }
-    }
 }
