@@ -12,6 +12,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.JsModule;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -49,6 +50,8 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
     private Button downloadStegoFileButton;
     @Id("backToHomePageButton")
     private Button backToHomePageButton;
+    @Id("recommendationLabel")
+    private Label recommendationLabel;
 
     @Autowired
     public EmbedView(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
@@ -67,10 +70,16 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
             if (embedViewController.isReadyToUpload()) {
                 submitButton.setEnabled(true);
             }
+            String recText = embedViewController.getRecommendationText();
+            if (recText != "") {
+                recommendationLabel.setText(recText);
+                recommendationLabel.setVisible(true);
+            }
         });
         coverFileUpload.getElement().addEventListener("upload-abort", (DomEventListener) domEvent -> {
             embedViewController.removeCoverFile(domEvent);
             submitButton.setEnabled(false);
+            recommendationLabel.setVisible(false);
         });
         coverFileUpload.addFileRejectedListener((ComponentEventListener<FileRejectedEvent>) rejectedEvent -> {
             logger.info(rejectedEvent.toString());
@@ -116,6 +125,8 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
         backToHomePageButton.setIcon(new Icon(VaadinIcon.ARROW_BACKWARD));
         backToHomePageButton.setText("Back to Home Page");
         backToHomePageButton.addClickListener(e -> UI.getCurrent().navigate(""));
+
+        recommendationLabel.setVisible(false);
     }
 
     public interface EmbedViewModel extends TemplateModel {

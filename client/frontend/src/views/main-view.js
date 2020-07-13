@@ -12,15 +12,15 @@ class MainView extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<vaadin-horizontal-layout style="width: 100%; height: 100%;">
- <vaadin-horizontal-layout style="width: 40%; height: 100%; background-image: url('https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX24914258.jpg'); flex-shrink: 0;" theme="spacing">
-  <h1 style="color:white; flex-shrink: 0; flex-grow: 0; align-self: center; margin-left: 20%;">NOTINSIGHT<br>STEGANOGRAPHY APPLICATION</h1>
+<vaadin-horizontal-layout style="width: 100%; height: 100%; background-image: url('https://www.pandasecurity.com/mediacenter/src/uploads/2017/12/esteganografia.jpg');">
+ <vaadin-horizontal-layout style="width: 40%; height: 100%; flex-shrink: 0;" theme="spacing">
+  <h1 style="color:white; flex-shrink: 0; flex-grow: 0; align-self: center; margin-left: 20%; font-size: 40px; background-color: rgba(0, 0, 0, 0.6);">NOTINSIGHT<br>STEGANOGRAPHY APPLICATION</h1>
  </vaadin-horizontal-layout>
  <vaadin-horizontal-layout style="width: 60%; flex-shrink: 0; height: 100%;">
-  <vaadin-button theme="primary" style="color:white; width: 25%; flex-shrink: 0; flex-grow: 1; height: 10%; align-self: center; margin-right: 20px; margin-left: 10%;" id="EmbedButton">
+  <vaadin-button theme="primary" style="color:white; width: 20%; flex-shrink: 0; flex-grow: 1; height: 8%; align-self: center; margin-right: 20px; margin-left: 10%;" id="EmbedButton">
     Embed Secret 
   </vaadin-button>
-  <vaadin-button style="color:white; width: 25%; height: 10%; flex-shrink: 0; flex-grow: 1; align-self: center; margin-right: 10%; margin-left: 20px;" theme="primary" id="ExtractButton">
+  <vaadin-button style="color:white; width: 20%; height: 8%; flex-shrink: 0; flex-grow: 1; align-self: center; margin-right: 10%; margin-left: 20px;" theme="primary" id="ExtractButton">
     Extract Secret 
   </vaadin-button>
  </vaadin-horizontal-layout>

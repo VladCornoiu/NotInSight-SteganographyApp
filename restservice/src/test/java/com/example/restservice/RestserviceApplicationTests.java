@@ -26,7 +26,7 @@ public class RestserviceApplicationTests {
 
         for (int i = 0; i < 45; ++i) {
             try {
-                String pathName = "C:\\Users\\Vlad\\Desktop\\stego_testing\\thesis_presentation\\" + keywords[i / 5] + (i % 5) + ".jfif";
+                String pathName = "C:\\Users\\Vlad\\Desktop\\stego_testing\\test\\thesis_presentation\\" + keywords[i / 5] + (i % 5) + ".jfif";
                 BufferedImage bufferedImage = ImageIO.read(new File(pathName));
                 JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("C:\\Users\\Vlad\\Desktop\\stego_testing\\SECRETFILE_3000.txt"), Paths.get("C:\\Projects\\GitHub\\NotInSight-SteganographyApp\\test"), keywords[i / 5] + (i % 5) + "_stego.jpg");
                 jpegEncoder.encode();
