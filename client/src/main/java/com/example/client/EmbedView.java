@@ -52,6 +52,8 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
     private Button backToHomePageButton;
     @Id("recommendationLabel")
     private Label recommendationLabel;
+    @Id("retryButton")
+    private Button retryButton;
 
     @Autowired
     public EmbedView(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
@@ -113,8 +115,12 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
         downloadStegoFileAnchor.setEnabled(false);
 
         downloadStegoFileButton.setVisible(false);
+        recommendationLabel.setVisible(false);
+        retryButton.setVisible(false);
 
         submitButton.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
+            submitButton.setEnabled(false);
+            retryButton.setVisible(true);
             embedViewController.processSubmit();
             downloadStegoFileAnchor.setAttribute("href", embedViewController.getStreamResource(embedViewController.getStegoFileName()));
             downloadStegoFileAnchor.setEnabled(true);
@@ -122,11 +128,12 @@ public class EmbedView extends PolymerTemplate<EmbedView.EmbedViewModel> {
         });
         submitButton.setEnabled(false);
 
+        retryButton.setText("Retry Stego process");
+        retryButton.addClickListener(e -> UI.getCurrent().getPage().reload());
+
         backToHomePageButton.setIcon(new Icon(VaadinIcon.ARROW_BACKWARD));
         backToHomePageButton.setText("Back to Home Page");
         backToHomePageButton.addClickListener(e -> UI.getCurrent().navigate(""));
-
-        recommendationLabel.setVisible(false);
     }
 
     public interface EmbedViewModel extends TemplateModel {

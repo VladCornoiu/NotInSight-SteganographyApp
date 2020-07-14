@@ -47,6 +47,8 @@ public class ExtractView extends PolymerTemplate<ExtractView.ExtractViewModel> {
     private Element anchor;
     @Id("backToHomePageButton")
     private Button backToHomePageButton;
+    @Id("retryButton")
+    private Button retryButton;
 
     @Autowired
     public ExtractView(StegoRestApi stegoRestApi, ClientStegoFileService clientStegoFileService) {
@@ -73,15 +75,21 @@ public class ExtractView extends PolymerTemplate<ExtractView.ExtractViewModel> {
         anchor.setAttribute("download", true);
         anchor.setEnabled(false);
 
+        submitButton.setEnabled(false);
         downloadSecretFileButton.setVisible(false);
+        retryButton.setVisible(false);
 
         submitButton.addClickListener((ComponentEventListener<ClickEvent<Button>>) buttonClickEvent -> {
+            submitButton.setEnabled(false);
+            retryButton.setVisible(true);
             extractViewController.processSubmit();
             anchor.setAttribute("href", extractViewController.getStreamResource(extractViewController.getSecretFileName()));
             anchor.setEnabled(true);
             downloadSecretFileButton.setVisible(true);
         });
-        submitButton.setEnabled(false);
+
+        retryButton.setText("Retry Extract Secret File");
+        retryButton.addClickListener(e -> UI.getCurrent().getPage().reload());
 
         backToHomePageButton.setIcon(new Icon(VaadinIcon.ARROW_BACKWARD));
         backToHomePageButton.setText("Back to Home Page");

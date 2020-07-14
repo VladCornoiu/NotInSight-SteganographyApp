@@ -1,9 +1,9 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
 import '@vaadin/vaadin-upload/src/vaadin-upload.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
 
 class EmbedView extends PolymerElement {
 
@@ -32,6 +32,9 @@ class EmbedView extends PolymerElement {
   <vaadin-button theme="primary success" id="downloadStegoFileButton">
     Download Stego File 
   </vaadin-button></a>
+ <vaadin-button theme="primary" id="retryButton" style="align-self: center;">
+  Retry
+ </vaadin-button>
 </vaadin-vertical-layout>
 `;
     }

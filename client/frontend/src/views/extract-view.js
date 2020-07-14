@@ -26,6 +26,9 @@ class ExtractView extends PolymerElement {
   <vaadin-button theme="primary success" id="downloadSecretFileButton" style="align-self: center;">
     Download Secret File 
   </vaadin-button></a>
+ <vaadin-button theme="primary" id="retryButton" style="align-self: center;">
+   Primary 
+ </vaadin-button>
 </vaadin-vertical-layout>
 `;
     }
