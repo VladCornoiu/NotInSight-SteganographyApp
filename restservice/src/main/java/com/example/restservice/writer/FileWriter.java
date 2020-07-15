@@ -82,29 +82,29 @@ public class FileWriter {
         DHT[2] = (byte) 0x01;
         DHT[3] = (byte) 0xA2; // 2 bytes for DHT length -> 418
         int index = 4;
-        for (int i = 0; i < bitsDCluminance.length; ++i)
-            DHT[index++] = (byte) bitsDCluminance[i];
+        for (int i = 0; i < luminanceDCNumberOfBitRepresentations.length; ++i)
+            DHT[index++] = (byte) luminanceDCNumberOfBitRepresentations[i];
 
-        for (int i = 0; i < valDCluminance.length; ++i)
-            DHT[index++] = (byte) valDCluminance[i];
+        for (int i = 0; i < luminanceDCLengthValues.length; ++i)
+            DHT[index++] = (byte) luminanceDCLengthValues[i];
 
-        for (int i = 0; i < bitsACluminance.length; ++i)
-            DHT[index++] = (byte) bitsACluminance[i];
+        for (int i = 0; i < luminanceACNumberOfBitRepresentations.length; ++i)
+            DHT[index++] = (byte) luminanceACNumberOfBitRepresentations[i];
 
-        for (int i = 0; i < valACluminance.length; ++i)
-            DHT[index++] = (byte) valACluminance[i];
+        for (int i = 0; i < luminanceACLengthValues.length; ++i)
+            DHT[index++] = (byte) luminanceACLengthValues[i];
 
-        for (int i = 0; i < bitsDCchrominance.length; ++i)
-            DHT[index++] = (byte) bitsDCchrominance[i];
+        for (int i = 0; i < chrominanceDCNumberOfBitRepresentations.length; ++i)
+            DHT[index++] = (byte) chrominanceDCNumberOfBitRepresentations[i];
 
-        for (int i = 0; i < valDCchrominance.length; ++i)
-            DHT[index++] = (byte) valDCchrominance[i];
+        for (int i = 0; i < chrominanceDCLengthValues.length; ++i)
+            DHT[index++] = (byte) chrominanceDCLengthValues[i];
 
-        for (int i = 0; i < bitsACchrominance.length; ++i)
-            DHT[index++] = (byte) bitsACchrominance[i];
+        for (int i = 0; i < chrominanceACNumberOfBitRepresentations.length; ++i)
+            DHT[index++] = (byte) chrominanceACNumberOfBitRepresentations[i];
 
-        for (int i = 0; i < ACChrominanceValues.length; ++i)
-            DHT[index++] = (byte) ACChrominanceValues[i];
+        for (int i = 0; i < chrominanceACLengthValues.length; ++i)
+            DHT[index++] = (byte) chrominanceACLengthValues[i];
 
         //SOS MARKER
         final byte SOS[] = new byte[14];

@@ -26,9 +26,9 @@ public class RestserviceApplicationTests {
 
         for (int i = 0; i < 45; ++i) {
             try {
-                String pathName = "C:\\Users\\Vlad\\Desktop\\stego_testing\\test\\thesis_presentation\\" + keywords[i / 5] + (i % 5) + ".jfif";
+                String pathName = "C:\\Users\\Vlad\\Desktop\\stego_testing\\thesis_presentation\\test\\" + keywords[i / 5] + (i % 5) + ".jfif";
                 BufferedImage bufferedImage = ImageIO.read(new File(pathName));
-                JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("C:\\Users\\Vlad\\Desktop\\stego_testing\\SECRETFILE_3000.txt"), Paths.get("C:\\Projects\\GitHub\\NotInSight-SteganographyApp\\test"), keywords[i / 5] + (i % 5) + "_stego.jpg");
+                JpegEncoder jpegEncoder = new JpegEncoder(bufferedImage, new File("C:\\Users\\Vlad\\Desktop\\stego_testing\\SECRETFILE_3000.txt"), Paths.get("C:\\Projects\\GitHub\\test_NotInSight\\NotInSight-SteganographyApp\\test"), keywords[i / 5] + (i % 5) + "_stego.jpg");
                 jpegEncoder.encode();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -36,11 +36,11 @@ public class RestserviceApplicationTests {
         }
 
         for (int i = 0; i < 45; ++i) {
-            String pathName = "C:\\Projects\\GitHub\\NotInSight-SteganographyApp\\test\\" + keywords[i / 5] + (i % 5) + "_stego" + ".jpg";
+            String pathName = "C:\\Projects\\GitHub\\test_NotInSight\\NotInSight-SteganographyApp\\test\\" + keywords[i / 5] + (i % 5) + "_stego" + ".jpg";
             File file = new File(pathName);
             SecretData secretDataToReturn = null;
             secretDataToReturn = SecretFileDecoder.extract(new FileInputStream(file), (int) file.length());
-            try (FileOutputStream fos = new FileOutputStream("C:\\Projects\\GitHub\\NotInSight-SteganographyApp\\afterStego\\" + i + "_" + secretDataToReturn.getFilename())) {
+            try (FileOutputStream fos = new FileOutputStream("C:\\Projects\\GitHub\\test_NotInSight\\NotInSight-SteganographyApp\\afterStego\\" + i + "_" + secretDataToReturn.getFilename())) {
                 fos.write(secretDataToReturn.getData());
             } catch (IOException e) {
                 e.printStackTrace();
