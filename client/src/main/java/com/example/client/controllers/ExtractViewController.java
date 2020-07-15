@@ -1,6 +1,7 @@
 package com.example.client.controllers;
 
 import com.example.client.data.SteganographyDataModel;
+import com.example.client.exception.CouldNotPerformStegoOperationException;
 import com.example.client.service.ClientStegoFileService;
 import com.example.client.service.StegoRestApi;
 import com.example.model.io.GetSecretFileResponse;
@@ -49,7 +50,14 @@ public class ExtractViewController  {
     }
 
     public void processSubmit() {
-        GetSecretFileResponse secretFileResponse = steganographyDataModel.getSecretFile(stegoFileName);
+        GetSecretFileResponse secretFileResponse = null;
+        try {
+            secretFileResponse = steganographyDataModel.getSecretFile(stegoFileName);
+        } catch (CouldNotPerformStegoOperationException ex) {
+            Notification.show("Sorry! There is no secret message in the image you have uploaded", 5000, Notification.Position.TOP_CENTER);
+            return;
+        }
+
         File file = new File(clientStegoFileService.getSecretFileDownloadStorageLocation().resolve(secretFileResponse.getFileName()).toString());
 
         try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -72,5 +80,6 @@ public class ExtractViewController  {
 
             return null;
         });
+
     }
 }

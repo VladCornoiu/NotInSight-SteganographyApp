@@ -1,6 +1,7 @@
 package com.example.restservice.decoder;
 import com.decoder.HuffmanDecoder;
 import com.example.restservice.encrypt.FileEncryption;
+import com.example.restservice.exception.NoHiddenMessageException;
 import com.example.restservice.model.DCTCoefficient;
 import com.example.restservice.model.SecretData;
 
@@ -16,13 +17,35 @@ public class SecretFileDecoder {
             40, 44, 53, 10, 19, 23, 32, 39, 45, 52, 54, 20, 22, 33, 38, 46, 51, 55, 60, 21, 34, 37, 47, 50, 56, 59, 61,
             35, 36, 48, 49, 57, 58, 62, 63};
 
-    public static SecretData extract(final InputStream fis, final int fileLength) throws IOException {
+    public SecretData extract(final InputStream fis, final int fileLength) throws IOException {
         carrierByteArray = new byte[fileLength];
         fis.read(carrierByteArray);
-        HuffmanDecoder hd = new HuffmanDecoder(carrierByteArray);
 
-        System.out.println("Decode");
-        dctCoefficients = hd.decode();
+        Thread t1 = new Thread(new MyRunnable());
+        t1.start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (t1.isAlive()) {
+            try {
+                Thread.sleep(2000);
+                if (t1.isAlive()) {
+                    Thread.sleep(5000);
+                    if (t1.isAlive()) {
+                        t1.interrupt();
+                        throw new NoHiddenMessageException("There is no hidden message here");
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (NoHiddenMessageException ex) {
+                throw ex;
+            }
+        }
+
         unzigzag(dctCoefficients);
 
         int coeffCount = dctCoefficients.length;
@@ -162,6 +185,15 @@ public class SecretFileDecoder {
                     coeffBlocIndex = 0;
                     System.arraycopy(coeffBloc, 0, coeff, index + 1 - 64, 64);
             }
+        }
+    }
+
+    public class MyRunnable implements Runnable {
+        public void run() {
+            HuffmanDecoder hd = new HuffmanDecoder(carrierByteArray);
+
+            System.out.println("Decode");
+            dctCoefficients = hd.decode();
         }
     }
 }

@@ -50,6 +50,13 @@ public class SteganographyDataModel {
         request.setStegoFile(new File(clientStegoFileService.getStegoFileUploadStorageLocation().resolve(stegoFileName).toString()));
 
         Response<GetSecretFileResponse> response = stegoRestApi.getSecretFile(request);
+        if (response.getStatus() == ResponseStatus.ERROR) {
+            String error = new StringBuilder()
+                    .append("Failed to retrieve Secret File ")
+                    .append(response.getHeader().getError().getMessage())
+                    .toString();
+            throw new CouldNotPerformStegoOperationException(error);
+        }
         logger.debug("response {}", response);
 
         return response.getBody();

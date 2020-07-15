@@ -3,6 +3,7 @@ package com.example.restservice.service;
 import com.example.restservice.decoder.SecretFileDecoder;
 import com.example.restservice.encoders.AudioEncoder;
 import com.example.restservice.encoders.JpegEncoder;
+import com.example.restservice.exception.NoHiddenMessageException;
 import com.example.restservice.exception.NotEnoughSpaceToEncodeException;
 import com.example.restservice.model.SecretData;
 import com.example.restservice.properties.ServerFileStorageProperties;
@@ -140,13 +141,28 @@ public class ServerStegoFileService {
             ex.printStackTrace();
         }
 
-        return getSecretData(new File(targetStegoFileUploadLocation.toString()));
+        SecretData secretData = null;
+        try {
+            secretData = getSecretData(new File(targetStegoFileUploadLocation.toString()));
+        } catch (NoHiddenMessageException ex) {
+            throw ex;
+        }
+
+        return secretData;
     }
 
     private SecretData getSecretData(File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
 
-        SecretData secretDataToReturn = SecretFileDecoder.extract(fis, (int) file.length());
+        SecretFileDecoder secretFileDecoder = new SecretFileDecoder();
+        SecretData secretDataToReturn = null;
+        try {
+            secretDataToReturn = secretFileDecoder.extract(fis, (int) file.length());
+        } catch (NoHiddenMessageException ex) {
+            throw ex;
+        } finally {
+            fis.close();
+        }
 
         return secretDataToReturn;
     }

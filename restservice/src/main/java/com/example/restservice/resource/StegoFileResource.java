@@ -58,7 +58,7 @@ public class StegoFileResource {
             return new Response<>(ResponseStatus.SUCCESS, new DefaultHeader("api/retrieveSecret", null), body);
 
         } catch (Exception ex) {
-            logger.error("The retrieval of secret data process failed with error: " + ex.getStackTrace());
+            logger.error("The retrieval of secret data process failed with error: " + ex.getStackTrace().toString());
             return new Response<>(ResponseStatus.ERROR, new DefaultHeader("api/retrieveSecret", new ResponseHeaderException(ex)), null);
         }
     }
